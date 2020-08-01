@@ -1,15 +1,31 @@
-## Put comments here that give an overall description of what your
-## functions do
 
-## Write a short comment describing this function
+## The function recieve a matrix and we solve the inverse. The computacional work then
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(x=matrix()){
+        z <- NULL
+        put<- function(y){
+                x<<- y
+                z<<-NULL
+        }
+        take<- function() x
+        putinverse<-function(inverse) z <<- inverse
+        takeinverse<- function() z
+        list(put = put,
+             take=take,
+             putinverse=putinverse,
+             takeinverse=takeinverse)
+        
 }
 
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+## we return the inverse matrix with this last function
+cacheSolve <- function(x, ...){
+        z <- x$takeinverse()
+        if(!is.null(z)){
+                message("getting cached data")
+                return(z)
+        }
+        data<-x$take()
+        z<- solve(data, ...)
+        x$putinverse(z)
+        z
 }
